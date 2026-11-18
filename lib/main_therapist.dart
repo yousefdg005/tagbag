@@ -540,9 +540,7 @@ class _TherapistHomeScreenState extends State<TherapistHomeScreen> {
             ),
             title: Text('المريض: خالد المبروك (متبقي 4/6 جلسات)', style: TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Text(
-              'باقة تأهيل مفصل الركبة
-المواعيد: السبت • الإثنين • الأربعاء (5:00 مساءً)
-العنوان: حي الأندلس، قرب جزيرة حي الأندلس',
+              'باقة تأهيل مفصل الركبة\nالمواعيد: السبت • الإثنين • الأربعاء (5:00 مساءً)\nالعنوان: حي الأندلس، قرب جزيرة حي الأندلس',
             ),
           ),
         ),
