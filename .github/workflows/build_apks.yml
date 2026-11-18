@@ -1,0 +1,59 @@
+name: Build 3 Android APKs (Patient, Therapist, Admin)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    name: Build Android APKs
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: ☕ Setup Java (JDK 17)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: 🐦 Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+
+      - name: 🛠️ Generate Android Scaffolding
+        run: |
+          flutter create . --platforms=android --org=com.physiocare.app
+          # إضافة إذن الإنترنت لتتصل التطبيقات بـ Neon عبر الشبكة
+          sed -i 's/<application/<uses-permission android:name="android.permission.INTERNET"\/>\n    <application/' android/app/src/main/AndroidManifest.xml
+
+      - name: 📦 Install Flutter Dependencies
+        run: flutter pub get
+
+      - name: 📱 Build Patient APK (تطبيق المريض)
+        run: |
+          flutter build apk -t lib/main_patient.dart --release
+          cp build/app/outputs/flutter-apk/app-release.apk patient_app.apk
+
+      - name: 👨‍⚕️ Build Therapist APK (تطبيق الأخصائي)
+        run: |
+          flutter build apk -t lib/main_therapist.dart --release
+          cp build/app/outputs/flutter-apk/app-release.apk therapist_app.apk
+
+      - name: 💻 Build Admin APK (تطبيق المركز والاستقبال)
+        run: |
+          flutter build apk -t lib/main_admin.dart --release
+          cp build/app/outputs/flutter-apk/app-release.apk admin_app.apk
+
+      - name: 🚀 Upload All 3 APKs to GitHub
+        uses: actions/upload-artifact@v4
+        with:
+          name: physio-suite-apks
+          path: |
+            patient_app.apk
+            therapist_app.apk
+            admin_app.apk
