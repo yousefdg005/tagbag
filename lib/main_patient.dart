@@ -528,7 +528,7 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
             padding: EdgeInsets.all(14),
             child: Row(
               children: [
-                Icon(Icons.home_Work_outlined, size: 32, color: Color(0xFF0D9488)),
+                Icon(Icons.home_work_outlined, size: 32, color: Color(0xFF0D9488)),
                 SizedBox(width: 12),
                 Expanded(
                   child: Column(
